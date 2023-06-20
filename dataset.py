@@ -148,7 +148,7 @@ class DAEdataset_DC(BaseDataset):
         description = self.tokenizer(description,max_length=64)['input_ids'][1:-1]
         source_corrupted = self.tokenizer.decode(self.data_corruption(description)).replace(' ','')
         source_noisy = self.tokenizer.decode(self.token_replace(description,p=0.8)).replace(' ','')
-        return source_corrupted.strip(),source.strip(),source_noisy.strip()
+        return source_corrupted.strip(),source.strip(),source.strip()
     
     def text_infilling(self,my_list,span_ratio=0.15):
         #text infill
