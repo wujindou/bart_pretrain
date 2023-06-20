@@ -29,7 +29,7 @@ tokenizer = BertTokenizer.from_pretrained(config.tokenizer_name)
 def pretrain(eval_epoch=3):
     config.output_dir = config.output_dir + '-pretrain'
     train_data = DAEdataset_DC(config.pretrain_file_list, config.input_l, config.output_l, tokenizer=tokenizer)
-    valid_data = DAEdataset_DC([config.valid_file], config.input_l, config.output_l, tokenizer=tokenizer)
+    valid_data = DAEdataset_DC(config.pretrain_file_list, config.input_l, config.output_l, tokenizer=tokenizer)
 
     train_chunked_batch_sampler = ChunkedBatchSampler(train_data, config.pretrain_batch, drop_last=False, shuffle=True)
     valid_chunked_batch_sampler = ChunkedBatchSampler(valid_data, config.valid_batch, drop_last=False, shuffle=False)
