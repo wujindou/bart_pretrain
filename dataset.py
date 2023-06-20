@@ -201,7 +201,7 @@ class DAEdataset_DC(BaseDataset):
         arr = np.array(arr_list)
         mask = np.random.rand(len(arr)) < p_drop
         
-        random_words = np.random.randint(size=arr.shape, high=len(tokenizer),low=103)
+        random_words = np.random.randint(size=arr.shape, high=self.tokenizer.vocab_size,low=103)
         arr = np.where(mask,random_words,arr)
 
         new_list = list(arr)
