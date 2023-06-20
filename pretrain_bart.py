@@ -21,9 +21,9 @@ from torch.cuda.amp import autocast, GradScaler
 import contextlib
 from BlockShuffle import ChunkedBatchSampler
 
+import os
 
 @torch.no_grad()
-import os
 def evaluate(model, loader, beam=1, n=-1):
     from rouge import Rouge
     rouge_score = Rouge()
