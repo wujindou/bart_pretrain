@@ -15,11 +15,11 @@ from config import build_config
 from dataset import DAEdataset_DC
 from transformers.optimization import get_cosine_schedule_with_warmup,get_linear_schedule_with_warmup
 from transformers import BertTokenizer
-from tricks.EMA import ExponentialMovingAverage
+from EMA import ExponentialMovingAverage
 from models import GenerationModel,GenerationModel_Pretrain
 from torch.cuda.amp import autocast, GradScaler
 import contextlib
-from tricks.BlockShuffle import ChunkedBatchSampler
+from BlockShuffle import ChunkedBatchSampler
 
 
 
