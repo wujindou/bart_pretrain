@@ -152,4 +152,4 @@ def pretrain(eval_epoch=3):
     logger.close()
     writer.close()
 
-pretrain(5)
+pretrain(1)
