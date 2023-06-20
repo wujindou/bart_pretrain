@@ -22,7 +22,28 @@ import contextlib
 from BlockShuffle import ChunkedBatchSampler
 
 
-
+@torch.no_grad()
+import os
+def evaluate(model, loader, beam=1, n=-1):
+    from rouge import Rouge
+    rouge_score = Rouge()
+    model.eval()
+    all_pred = []
+    all_targets = []
+    for (source, targets, _) in tqdm(loader):
+        source, targets = list(source), list(targets)
+        with torch.no_grad():
+            pred = model(source)
+        pred = tokenizer.batch_decode(pred.cpu().numpy(), skip_special_tokens=True)
+        print(pred)
+        sys.exit(1)
+        all_pred.extend(pred)
+        all_targets.extend(targets)
+    scores = rouge_score.get_scores(all_preds,all_targets,avg=True)
+    for key in scores:
+      scores[key] = scores[key]['f']*100
+    result = scores
+    print(result)
 config = build_config()
 tokenizer = BertTokenizer.from_pretrained(config.tokenizer_name)
 
@@ -114,9 +135,9 @@ def pretrain(eval_epoch=3):
             if step.value % 100 == 0:
                 logger.log(step.value, train_loss.value())
 
-        # if (epoch + 1) % eval_epoch == 0 or epoch == config.pretrain_epoch - 1:
-        #     # checkpoint.save(config.output_dir+'/model_%d.pt'%epoch)
-        #     metrics = evaluate(model, valid_loader)
+        if (epoch + 1) % eval_epoch == 0 or epoch == config.pretrain_epoch - 1:
+            # checkpoint.save(config.output_dir+'/model_%d.pt'%epoch)
+            metrics = evaluate(model, valid_loader)
         #     logger.log('valid', step.value, metrics.value())
         #     writer.add_scalars('valid metric', metrics.value(), step.value)
         #     checkpoint.update(config.output_dir + '/model.pt', metrics=metrics.value())
